@@ -9,6 +9,7 @@ import kr.hhplus.be.server.domain.reservation.ReservationService;
 import kr.hhplus.be.server.domain.concert.Seat;
 import kr.hhplus.be.server.domain.concert.SeatStatus;
 import kr.hhplus.be.server.domain.reservation.ReservationState;
+import kr.hhplus.be.server.interfaces.aop.DistributedLock;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,8 @@ public class ReservationFacade {
 
     private final ConcertService concertService;
     private final ReservationService reservationService;
-    @Transactional
+
+    @DistributedLock(key = "#reservationParam.scheduleId")
     public ReservationResult createSeatReservation(ReservationParam reservationParam) {
         //1. 좌석(seat) 상태 업데이트 (점유)
         Seat updatedSeat = concertService.updateSeatStatus(reservationParam.seatId(), SeatStatus.OCCUPIED);

@@ -34,6 +34,11 @@ public class Seat extends BaseEntity {
     @JoinColumn(name = "schedule_id", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Schedule schedule;
 
+    // 낙관적 락 사용 시 버전 필드 추가
+    /*@Version
+    private Integer version = 0;*/
+
+
     @Builder
     public Seat(Long seatId, int seatNumber, SeatStatus seatStatus, BigDecimal seatPrice, Schedule schedule){
         this.id = seatId;

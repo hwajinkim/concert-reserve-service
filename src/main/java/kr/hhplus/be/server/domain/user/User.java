@@ -28,6 +28,10 @@ public class User extends BaseEntity {
 
     public static final BigDecimal MAX_BALANCE = BigDecimal.valueOf(1000000.00); // 최대 보유 포인트 1,000,000원
 
+    // 낙관적 락 사용 시 버전 필드 추가
+    /*@Version
+    private Integer version = 0;*/
+
     @Builder
     public User(Long id, String userName, BigDecimal pointBalance){
         this.id = id;

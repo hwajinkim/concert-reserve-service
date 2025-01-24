@@ -84,7 +84,7 @@ public class PaymentConcurrencyIntegrationTest extends BaseIntegrationTest{
     }
 
     @Test
-    void 같은_유저가_동시에_5번_결제_신청하면_1번만_결제성공() throws InterruptedException {
+    void 비관적락_같은_유저가_동시에_20번_결제_신청하면_1번만_결제성공() throws InterruptedException {
         //given
         User user = users.get(0);
         Queue queue = queueSetUp.saveQueue(user.getId(), QueueStatus.WAIT, LocalDateTime.now().plusMinutes(10));
@@ -107,7 +107,7 @@ public class PaymentConcurrencyIntegrationTest extends BaseIntegrationTest{
         );
         PaymentParam paymentParam = new PaymentParam(reservation.getId(), schedule.getSeats().get(0).getId(), user.getId(), queue.getId());
 
-        int threadCount = 5;
+        int threadCount = 20;
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
         AtomicInteger successfulRequests = new AtomicInteger();
@@ -129,7 +129,6 @@ public class PaymentConcurrencyIntegrationTest extends BaseIntegrationTest{
         executorService.awaitTermination(1, TimeUnit.SECONDS);
         //then
         assertEquals(1, successfulRequests.get(), "성공한 요청은 1개여야 합니다.");
-        assertEquals(4, failedRequests.get(), "실패한 요청은 4개여야 합니다.");
+        assertEquals(19, failedRequests.get(), "실패한 요청은 19개여야 합니다.");
     }
-
 }

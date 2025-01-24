@@ -139,7 +139,7 @@ public class ConcertServiceTest {
                 .schedule(null)
                 .build();
 
-        when(seatRepository.findByIdWithLock(seatId)).thenReturn(Optional.of(mockSeat));
+        when(seatRepository.findById(seatId)).thenReturn(Optional.of(mockSeat));
         when(seatRepository.save(any(Seat.class))).thenReturn(updatedMockSeat);
         //when
         Seat updatedSeat = concertService.updateSeatStatus(seatId, SeatStatus.OCCUPIED);

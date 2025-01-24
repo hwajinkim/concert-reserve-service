@@ -12,6 +12,14 @@ services:
     volumes:
       - ./data/mysql/:/var/lib/mysql
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - my-network
+
 networks:
   default:
     driver: bridge
+  my-network:

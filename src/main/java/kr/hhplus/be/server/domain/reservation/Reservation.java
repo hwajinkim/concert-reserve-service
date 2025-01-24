@@ -37,6 +37,10 @@ public class Reservation extends BaseEntity {
 
     private LocalDateTime expiredAt;
 
+    // 낙관적 락 사용 시 버전 필드 추가
+    /*@Version
+    private Integer version = 0;*/
+
     @Builder
     public Reservation(Long reservationId, Long userId, Long seatId, ReservationState reservationState,
                        BigDecimal seatPrice, LocalDateTime expiredAt){
